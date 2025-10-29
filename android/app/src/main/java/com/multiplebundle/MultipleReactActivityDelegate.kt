@@ -9,14 +9,10 @@ import android.util.Log
 import android.view.KeyEvent
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactDelegate
-import com.facebook.react.ReactInstanceEventListener
-import com.facebook.react.ReactInstanceManager
 import com.facebook.react.ReactRootView
 import com.facebook.react.bridge.JSBundleLoader
 import com.facebook.react.bridge.ReactContext
-import com.facebook.react.common.annotations.DeprecatedInNewArchitecture
 import com.facebook.react.defaults.DefaultReactActivityDelegate
-import com.facebook.react.internal.featureflags.ReactNativeFeatureFlags.enableBridgelessArchitecture
 import com.facebook.react.runtime.ReactHostHelper
 import com.facebook.react.runtime.ReactHostImpl
 import com.facebook.systrace.Systrace.traceSection
@@ -40,81 +36,34 @@ class MultipleReactActivityDelegate(
                 val mainComponentName = this.mainComponentName
                 val launchOptions = this.composeLaunchOptions()
                 val activity = reactActivity
+                
                 if (Build.VERSION.SDK_INT >= 26 && this.isWideColorGamutEnabled) {
                     activity.window.colorMode = ActivityInfo.COLOR_MODE_WIDE_COLOR_GAMUT
                 }
 
-                if (enableBridgelessArchitecture()) {
-                    this.mReactDelegate =
-                        ReactDelegate(
-                            this.plainActivity,
-                            this.reactHost,
-                            mainComponentName,
-                            launchOptions,
-                        )
+                // New Architecture (Bridgeless) only
+                this.mReactDelegate = ReactDelegate(
+                    this.plainActivity,
+                    this.reactHost,
+                    mainComponentName,
+                    launchOptions,
+                )
 
-                    reactHost?.start()?.waitForCompletion()
-                    val result =
-                        helper.loadBundle(
-                            JSBundleLoader.createAssetLoader(this.reactActivity, bundlePath, false),
-                        )
+                reactHost?.start()?.waitForCompletion()
+                val result = helper.loadBundle(
+                    JSBundleLoader.createAssetLoader(this.reactActivity, bundlePath, false),
+                )
 
-                    Log.i("TestApp", "load bundle $bundlePath ==> $result")
-                    this.loadApp(mainComponentName)
-                } else {
-                    this.mReactDelegate =
-                        object : ReactDelegate(
-                            this.plainActivity,
-                            this.reactNativeHost,
-                            mainComponentName,
-                            launchOptions,
-                            this.isFabricEnabled,
-                        ) {
-                            override fun createRootView(): ReactRootView {
-                                var rootView: ReactRootView? = this@MultipleReactActivityDelegate.createRootView()
-                                if (rootView == null) {
-                                    rootView = super.createRootView()
-                                }
-
-                                return rootView!!
-                            }
-                        }
-
-                    reactNativeHost.reactInstanceManager.addReactInstanceEventListener(
-                        object : ReactInstanceEventListener {
-                            override fun onReactContextInitialized(context: ReactContext) {
-                                Log.i("TestApp", "Multiple onReactContextInitialized")
-
-                                val instance = reactNativeHost.reactInstanceManager.currentReactContext?.catalystInstance
-                                instance?.loadScriptFromAssets(context.assets, bundlePath, false)
-                                Log.i("TestApp", "loaded bundle $bundlePath")
-                                if (mainComponentName != null) {
-                                    try {
-                                        this@MultipleReactActivityDelegate.loadApp(mainComponentName)
-                                    } catch (e: Exception) {
-                                        Log.e("TestApp", "load app $mainComponentName")
-                                    }
-                                }
-                            }
-                        },
-                    )
-                    reactNativeHost.reactInstanceManager.createReactContextInBackground()
-                }
+                Log.i("TestApp", "load bundle $bundlePath ==> $result")
+                this.loadApp(mainComponentName)
             },
         )
     }
 
-    private fun loadAppOldWay() {
-    }
-
     override fun getReactDelegate(): ReactDelegate = mReactDelegate!!
-
-    @DeprecatedInNewArchitecture(message = "Use getReactHost()")
-    override fun getReactInstanceManager(): ReactInstanceManager = mReactDelegate!!.reactInstanceManager
 
     public override fun loadApp(appKey: String?) {
         mReactDelegate!!.loadApp(appKey)
-        // Don't call setContentView - let Compose handle the view hierarchy
     }
 
     fun getReactRootView(): ReactRootView? {
@@ -133,10 +82,6 @@ class MultipleReactActivityDelegate(
 
     override fun onResume() {
         mReactDelegate!!.onHostResume()
-//        if (mPermissionsCallback != null) {
-//            mPermissionsCallback!!.invoke()
-//            mPermissionsCallback = null
-//        }
     }
 
     override fun onDestroy() {

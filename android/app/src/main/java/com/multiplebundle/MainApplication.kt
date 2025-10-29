@@ -45,12 +45,8 @@ class MainApplication :
         super.onCreate()
         SoLoader.init(this, OpenSourceMergedSoMapping)
         FLog.setMinimumLoggingLevel(FLog.VERBOSE)
-        if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
-            // If you opted-in for the New Architecture, we load the native entry point for this app.
-//            load()
-            load(bridgelessEnabled = true)
-        }
-        reactNativeHost.reactInstanceManager.createReactContextInBackground()
+        // New Architecture is always enabled
+        load(bridgelessEnabled = true)
         Log.i("TestApp", "App onCreate")
     }
 }
