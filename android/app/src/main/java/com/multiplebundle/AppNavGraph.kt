@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun NativeScreen(onClick: () -> Unit) {
+fun NativeScreen(onClickBiz1: () -> Unit, onClickBiz2: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -19,8 +19,12 @@ fun NativeScreen(onClick: () -> Unit) {
     ) {
         Text("This is a native Jetpack Compose screen")
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = onClick) {
-            Text("Launch Biz Bundle")
+        Button(onClick = onClickBiz1) {
+            Text("Launch Biz1 Bundle")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = onClickBiz2) {
+            Text("Launch Biz2 Bundle")
         }
     }
 }

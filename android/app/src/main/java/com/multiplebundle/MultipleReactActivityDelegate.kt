@@ -25,8 +25,10 @@ class MultipleReactActivityDelegate(
     activity: ReactActivity,
     mainComponentName: String,
     fabricEnabled: Boolean,
+    private val bundlePath: String = "assets://biz.android.bundle"
 ) : DefaultReactActivityDelegate(activity, mainComponentName, fabricEnabled) {
     private var mReactDelegate: ReactDelegate? = null
+    var onBackPressedCallback: (() -> Boolean)? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         val helper = ReactHostHelper(reactHost as ReactHostImpl)
@@ -54,10 +56,10 @@ class MultipleReactActivityDelegate(
                     reactHost?.start()?.waitForCompletion()
                     val result =
                         helper.loadBundle(
-                            JSBundleLoader.createAssetLoader(this.reactActivity, "assets://biz1.android.bundle", false),
+                            JSBundleLoader.createAssetLoader(this.reactActivity, bundlePath, false),
                         )
 
-                    Log.i("TestApp", "load biz bundle ==> $result")
+                    Log.i("TestApp", "load bundle $bundlePath ==> $result")
                     this.loadApp(mainComponentName)
                 } else {
                     this.mReactDelegate =
@@ -84,8 +86,8 @@ class MultipleReactActivityDelegate(
                                 Log.i("TestApp", "Multiple onReactContextInitialized")
 
                                 val instance = reactNativeHost.reactInstanceManager.currentReactContext?.catalystInstance
-                                instance?.loadScriptFromAssets(context.assets, "assets://biz.android.bundle", false)
-                                Log.i("TestApp", "loaded biz bundle")
+                                instance?.loadScriptFromAssets(context.assets, bundlePath, false)
+                                Log.i("TestApp", "loaded bundle $bundlePath")
                                 if (mainComponentName != null) {
                                     try {
                                         this@MultipleReactActivityDelegate.loadApp(mainComponentName)
@@ -112,7 +114,11 @@ class MultipleReactActivityDelegate(
 
     public override fun loadApp(appKey: String?) {
         mReactDelegate!!.loadApp(appKey)
-        plainActivity.setContentView(mReactDelegate!!.reactRootView)
+        // Don't call setContentView - let Compose handle the view hierarchy
+    }
+
+    fun getReactRootView(): ReactRootView? {
+        return mReactDelegate?.reactRootView as? ReactRootView
     }
 
     override fun onUserLeaveHint() {
@@ -160,7 +166,14 @@ class MultipleReactActivityDelegate(
         event: KeyEvent?,
     ): Boolean = mReactDelegate!!.onKeyLongPress(keyCode)
 
-    override fun onBackPressed(): Boolean = mReactDelegate!!.onBackPressed()
+    override fun onBackPressed(): Boolean {
+        // Check if custom callback is set and returns true (handled)
+        if (onBackPressedCallback?.invoke() == true) {
+            return true
+        }
+        // Otherwise, let React Native handle it
+        return mReactDelegate!!.onBackPressed()
+    }
 
     override fun onNewIntent(intent: Intent?): Boolean = mReactDelegate!!.onNewIntent(intent)
 

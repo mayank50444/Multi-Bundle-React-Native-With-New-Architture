@@ -12,10 +12,16 @@ fun AppNavGraph(navController: NavHostController = rememberNavController()) {
 
     NavHost(navController = navController, startDestination = "native") {
         composable("native") {
-            NativeScreen(onClick = { navController.navigate("biz") })
+            NativeScreen(
+                onClickBiz1 = { navController.navigate("biz1") },
+                onClickBiz2 = { navController.navigate("biz2") }
+            )
         }
-        composable("biz") {
-            ReactBizScreen()
+        composable("biz1") {
+            ReactBizScreen(bundleName = "Biz1Bundle")
+        }
+        composable("biz2") {
+            ReactBizScreen(bundleName = "Biz2Bundle")
         }
     }
 }
