@@ -1,0 +1,466 @@
+__d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
+  var _interopRequireDefault = _$$_REQUIRE(_dependencyMap[0]);
+  _$$_REQUIRE(_dependencyMap[1]);
+  var _reactNative = _$$_REQUIRE(_dependencyMap[2]);
+  var _Biz = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[3]));
+  console.log('biz bundle message');
+  _reactNative.AppRegistry.registerComponent(_$$_REQUIRE(_dependencyMap[4]).name, function () {
+    return _Biz.default;
+  });
+  console.log('registerComponent', _$$_REQUIRE(_dependencyMap[4]).name);
+},3000000001,[23,3,5,3000000002,3000000014]);
+__d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
+  var _interopRequireDefault = _$$_REQUIRE(_dependencyMap[0]);
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = undefined;
+  var _react = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[1]));
+  var _reactNative = _$$_REQUIRE(_dependencyMap[2]);
+  var _jsxRuntime = _$$_REQUIRE(_dependencyMap[3]);
+  /**
+   * Sample React Native App
+   * https://github.com/facebook/react-native
+   *
+   * @format
+   */
+
+  function App() {
+    var isDarkMode = (0, _reactNative.useColorScheme)() === 'dark';
+    var backgroundStyle = {
+      backgroundColor: isDarkMode ? _$$_REQUIRE(_dependencyMap[4]).Colors.darker : _$$_REQUIRE(_dependencyMap[4]).Colors.lighter
+    };
+    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_reactNative.SafeAreaView, {
+      style: backgroundStyle,
+      children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.StatusBar, {
+        barStyle: isDarkMode ? 'light-content' : 'dark-content',
+        backgroundColor: backgroundStyle.backgroundColor
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Text, {
+        children: "Business Screen"
+      })]
+    });
+  }
+  var _default = exports.default = App;
+},3000000002,[23,3,5,226,3000000003]);
+__d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
+  var _interopRequireDefault = _$$_REQUIRE(_dependencyMap[0]);
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, "Colors", {
+    enumerable: true,
+    get: function get() {
+      return _Colors.default;
+    }
+  });
+  Object.defineProperty(exports, "DebugInstructions", {
+    enumerable: true,
+    get: function get() {
+      return _DebugInstructions.default;
+    }
+  });
+  Object.defineProperty(exports, "Header", {
+    enumerable: true,
+    get: function get() {
+      return _Header.default;
+    }
+  });
+  Object.defineProperty(exports, "HermesBadge", {
+    enumerable: true,
+    get: function get() {
+      return _HermesBadge.default;
+    }
+  });
+  Object.defineProperty(exports, "LearnMoreLinks", {
+    enumerable: true,
+    get: function get() {
+      return _LearnMoreLinks.default;
+    }
+  });
+  Object.defineProperty(exports, "ReloadInstructions", {
+    enumerable: true,
+    get: function get() {
+      return _ReloadInstructions.default;
+    }
+  });
+  var _Colors = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[1]));
+  var _DebugInstructions = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[2]));
+  var _Header = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[3]));
+  var _HermesBadge = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[4]));
+  var _LearnMoreLinks = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[5]));
+  var _ReloadInstructions = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[6]));
+},3000000003,[23,3000000004,3000000005,3000000006,3000000007,3000000010,3000000013]);
+__d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = undefined;
+  var _default = exports.default = {
+    primary: '#1292B4',
+    white: '#FFF',
+    lighter: '#F3F3F3',
+    light: '#DAE1E7',
+    dark: '#444',
+    darker: '#222',
+    black: '#000'
+  };
+},3000000004,[]);
+__d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
+  var _interopRequireDefault = _$$_REQUIRE(_dependencyMap[0]);
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = undefined;
+  var _StyleSheet = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[1]));
+  var _Text = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[2]));
+  var _Platform = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[3]));
+  var _react = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[4]));
+  var _jsxRuntime = _$$_REQUIRE(_dependencyMap[5]);
+  var styles = _StyleSheet.default.create({
+    highlight: {
+      fontWeight: '700'
+    }
+  });
+  var DebugInstructions = _Platform.default.select({
+    ios: function ios() {
+      return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Text.default, {
+        children: ["Press ", /*#__PURE__*/(0, _jsxRuntime.jsx)(_Text.default, {
+          style: styles.highlight,
+          children: "Cmd + D"
+        }), " in the simulator or", ' ', /*#__PURE__*/(0, _jsxRuntime.jsx)(_Text.default, {
+          style: styles.highlight,
+          children: "Shake"
+        }), " your device to open the Dev Menu."]
+      });
+    },
+    default: function _default() {
+      return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Text.default, {
+        children: ["Press ", /*#__PURE__*/(0, _jsxRuntime.jsx)(_Text.default, {
+          style: styles.highlight,
+          children: "Cmd or Ctrl + M"
+        }), " or", ' ', /*#__PURE__*/(0, _jsxRuntime.jsx)(_Text.default, {
+          style: styles.highlight,
+          children: "Shake"
+        }), " your device to open the Dev Menu."]
+      });
+    }
+  });
+  var _default2 = exports.default = DebugInstructions;
+},3000000005,[23,228,274,37,3,226]);
+__d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
+  var _interopRequireDefault = _$$_REQUIRE(_dependencyMap[0]);
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = undefined;
+  var _ImageBackground = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[1]));
+  var _StyleSheet = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[2]));
+  var _Text = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[3]));
+  var _useColorScheme = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[4]));
+  var _Colors = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[5]));
+  var _HermesBadge = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[6]));
+  var _react = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[7]));
+  var _jsxRuntime = _$$_REQUIRE(_dependencyMap[8]);
+  var Header = function Header() {
+    var isDarkMode = (0, _useColorScheme.default)() === 'dark';
+    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_ImageBackground.default, {
+      accessibilityRole: "image",
+      testID: "new-app-screen-header",
+      source: _$$_REQUIRE(_dependencyMap[9]),
+      style: [styles.background, {
+        backgroundColor: isDarkMode ? _Colors.default.darker : _Colors.default.lighter
+      }],
+      imageStyle: styles.logo,
+      children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_HermesBadge.default, {}), /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Text.default, {
+        style: [styles.text, {
+          color: isDarkMode ? _Colors.default.white : _Colors.default.black
+        }],
+        children: ["Welcome to", '\n', "React Native"]
+      })]
+    });
+  };
+  var styles = _StyleSheet.default.create({
+    background: {
+      paddingBottom: 40,
+      paddingTop: 96,
+      paddingHorizontal: 32
+    },
+    logo: {
+      opacity: 0.2,
+      overflow: 'visible',
+      resizeMode: 'cover',
+      marginLeft: -128,
+      marginBottom: -192
+    },
+    text: {
+      fontSize: 40,
+      fontWeight: '700',
+      textAlign: 'center'
+    }
+  });
+  var _default = exports.default = Header;
+},3000000006,[23,399,228,274,477,3000000004,3000000007,3,226,3000000008]);
+__d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
+  var _interopRequireDefault = _$$_REQUIRE(_dependencyMap[0]);
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = undefined;
+  var _View = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[1]));
+  var _StyleSheet = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[2]));
+  var _Text = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[3]));
+  var _useColorScheme = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[4]));
+  var _Colors = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[5]));
+  var _react = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[6]));
+  var _jsxRuntime = _$$_REQUIRE(_dependencyMap[7]);
+  var HermesBadge = function HermesBadge() {
+    var _global$HermesInterna, _global$HermesInterna2;
+    var isDarkMode = (0, _useColorScheme.default)() === 'dark';
+    var version = (_global$HermesInterna = (_global$HermesInterna2 = global.HermesInternal) == null || _global$HermesInterna2.getRuntimeProperties == null ? undefined : _global$HermesInterna2.getRuntimeProperties()['OSS Release Version']) != null ? _global$HermesInterna : '';
+    return global.HermesInternal ? /*#__PURE__*/(0, _jsxRuntime.jsx)(_View.default, {
+      style: styles.badge,
+      children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_Text.default, {
+        style: [styles.badgeText, {
+          color: isDarkMode ? _Colors.default.light : _Colors.default.dark
+        }],
+        children: `Engine: Hermes ${version}`
+      })
+    }) : null;
+  };
+  var styles = _StyleSheet.default.create({
+    badge: {
+      position: 'absolute',
+      right: 12,
+      bottom: 8
+    },
+    badgeText: {
+      fontSize: 14,
+      fontWeight: '600',
+      textAlign: 'right'
+    }
+  });
+  var _default = exports.default = HermesBadge;
+},3000000007,[23,185,228,274,477,3000000004,3,226]);
+__d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
+  module.exports = _$$_REQUIRE(_dependencyMap[0]).registerAsset({
+    "__packager_asset": true,
+    "httpServerLocation": "/assets/node_modules/react-native/Libraries/NewAppScreen/components",
+    "width": 512,
+    "height": 512,
+    "scales": [1],
+    "hash": "3cf817075ffdc798cf13c457bf4c3bc5",
+    "name": "logo",
+    "type": "png"
+  });
+},3000000008,[3000000009]);
+__d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
+  'use strict';
+
+  module.exports = _$$_REQUIRE(_dependencyMap[0]);
+},3000000009,[211]);
+__d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
+  var _interopRequireDefault = _$$_REQUIRE(_dependencyMap[0]);
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = undefined;
+  var _TouchableOpacity = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[1]));
+  var _View = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[2]));
+  var _openURLInBrowser = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[3]));
+  var _StyleSheet = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[4]));
+  var _Text = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[5]));
+  var _useColorScheme = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[6]));
+  var _Colors = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[7]));
+  var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[8]));
+  var _jsxRuntime = _$$_REQUIRE(_dependencyMap[9]);
+  function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+  function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+  var links = [{
+    id: 1,
+    title: 'The Basics',
+    link: 'https://reactnative.dev/docs/tutorial',
+    description: 'Explains a Hello World for React Native.'
+  }, {
+    id: 2,
+    title: 'Style',
+    link: 'https://reactnative.dev/docs/style',
+    description: 'Covers how to use the prop named style which controls the visuals.'
+  }, {
+    id: 3,
+    title: 'Layout',
+    link: 'https://reactnative.dev/docs/flexbox',
+    description: 'React Native uses flexbox for layout, learn how it works.'
+  }, {
+    id: 4,
+    title: 'Components',
+    link: 'https://reactnative.dev/docs/components-and-apis',
+    description: 'The full list of components and APIs inside React Native.'
+  }, {
+    id: 5,
+    title: 'Navigation',
+    link: 'https://reactnative.dev/docs/navigation',
+    description: 'How to handle moving between screens inside your application.'
+  }, {
+    id: 6,
+    title: 'Networking',
+    link: 'https://reactnative.dev/docs/network',
+    description: 'How to use the Fetch API in React Native.'
+  }, {
+    id: 7,
+    title: 'Debugging',
+    link: 'https://facebook.github.io/react-native/docs/debugging',
+    description: 'Learn about the tools available to debug and inspect your app.'
+  }, {
+    id: 8,
+    title: 'Help',
+    link: 'https://facebook.github.io/react-native/help',
+    description: 'Need more help? There are many other React Native developers who may have the answer.'
+  }, {
+    id: 9,
+    title: 'Follow us',
+    link: 'https://x.com/reactnative',
+    description: 'Stay in touch with the community, join in on Q&As and more by following React Native on X.'
+  }];
+  var LinkList = function LinkList() {
+    var isDarkMode = (0, _useColorScheme.default)() === 'dark';
+    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_View.default, {
+      style: styles.container,
+      children: links.map(function (_ref) {
+        var id = _ref.id,
+          title = _ref.title,
+          link = _ref.link,
+          description = _ref.description;
+        return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_react.Fragment, {
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_View.default, {
+            style: [styles.separator, {
+              backgroundColor: isDarkMode ? _Colors.default.dark : _Colors.default.light
+            }]
+          }), /*#__PURE__*/(0, _jsxRuntime.jsxs)(_TouchableOpacity.default, {
+            accessibilityRole: "button",
+            onPress: function onPress() {
+              return (0, _openURLInBrowser.default)(link);
+            },
+            style: styles.linkContainer,
+            children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_Text.default, {
+              style: styles.link,
+              children: title
+            }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_Text.default, {
+              style: [styles.description, {
+                color: isDarkMode ? _Colors.default.lighter : _Colors.default.dark
+              }],
+              children: description
+            })]
+          })]
+        }, id);
+      })
+    });
+  };
+  var styles = _StyleSheet.default.create({
+    container: {
+      marginTop: 32,
+      paddingHorizontal: 24
+    },
+    linkContainer: {
+      flexWrap: 'wrap',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingVertical: 8
+    },
+    link: {
+      flex: 2,
+      fontSize: 18,
+      fontWeight: '400',
+      color: _Colors.default.primary
+    },
+    description: {
+      flex: 3,
+      paddingVertical: 16,
+      fontWeight: '400',
+      fontSize: 18
+    },
+    separator: {
+      height: _StyleSheet.default.hairlineWidth
+    }
+  });
+  var _default = exports.default = LinkList;
+},3000000010,[23,287,185,3000000011,228,274,477,3000000004,3,226]);
+__d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
+  'use strict';
+
+  function openURLInBrowser(url) {
+    fetch(_$$_REQUIRE(_dependencyMap[0])().url + 'open-url', {
+      method: 'POST',
+      body: JSON.stringify({
+        url: url
+      })
+    });
+  }
+  module.exports = openURLInBrowser;
+},3000000011,[3000000012]);
+__d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
+  var _interopRequireDefault = _$$_REQUIRE(_dependencyMap[0]);
+  var _NativeSourceCode = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[1]));
+  var _cachedDevServerURL;
+  var _cachedFullBundleURL;
+  var FALLBACK = 'http://localhost:8081/';
+  function getDevServer() {
+    if (_cachedDevServerURL === undefined) {
+      var scriptUrl = _NativeSourceCode.default.getConstants().scriptURL;
+      var match = scriptUrl.match(/^https?:\/\/.*?\//);
+      _cachedDevServerURL = match ? match[0] : null;
+      _cachedFullBundleURL = match ? scriptUrl : null;
+    }
+    return {
+      url: _cachedDevServerURL != null ? _cachedDevServerURL : FALLBACK,
+      fullBundleUrl: _cachedFullBundleURL,
+      bundleLoadedFromServer: _cachedDevServerURL !== null
+    };
+  }
+  module.exports = getDevServer;
+},3000000012,[23,209]);
+__d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
+  var _interopRequireDefault = _$$_REQUIRE(_dependencyMap[0]);
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = undefined;
+  var _StyleSheet = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[1]));
+  var _Text = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[2]));
+  var _Platform = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[3]));
+  var _react = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[4]));
+  var _jsxRuntime = _$$_REQUIRE(_dependencyMap[5]);
+  var styles = _StyleSheet.default.create({
+    highlight: {
+      fontWeight: '700'
+    }
+  });
+  var ReloadInstructions = _Platform.default.select({
+    ios: function ios() {
+      return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Text.default, {
+        children: ["Press ", /*#__PURE__*/(0, _jsxRuntime.jsx)(_Text.default, {
+          style: styles.highlight,
+          children: "Cmd + R"
+        }), " in the simulator to reload your app's code."]
+      });
+    },
+    default: function _default() {
+      return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_Text.default, {
+        children: ["Double tap ", /*#__PURE__*/(0, _jsxRuntime.jsx)(_Text.default, {
+          style: styles.highlight,
+          children: "R"
+        }), " on your keyboard to reload your app's code."]
+      });
+    }
+  });
+  var _default2 = exports.default = ReloadInstructions;
+},3000000013,[23,228,274,37,3,226]);
+__d(function(global, require, _importDefaultUnused, _importAllUnused, module, exports, _dependencyMapUnused) {
+  module.exports = {
+  "name": "BizBundle",
+  "displayName": "BizBundle"
+}
+;
+},3000000014,[]);
+__r(66);
+__r(3000000001);
