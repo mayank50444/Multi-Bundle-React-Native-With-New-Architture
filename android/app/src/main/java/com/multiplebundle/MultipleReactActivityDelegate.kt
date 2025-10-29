@@ -54,7 +54,7 @@ class MultipleReactActivityDelegate(
                     reactHost?.start()?.waitForCompletion()
                     val result =
                         helper.loadBundle(
-                            JSBundleLoader.createAssetLoader(this.reactActivity, "assets://biz.android.bundle", false),
+                            JSBundleLoader.createAssetLoader(this.reactActivity, "assets://biz1.android.bundle", false),
                         )
 
                     Log.i("TestApp", "load biz bundle ==> $result")

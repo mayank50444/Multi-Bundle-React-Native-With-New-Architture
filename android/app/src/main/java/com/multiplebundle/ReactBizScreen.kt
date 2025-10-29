@@ -23,7 +23,7 @@ fun ReactBizScreen() {
     LaunchedEffect(Unit) {
         val delegate = MultipleReactActivityDelegate(
             context as ReactActivity,
-            "BizBundle",
+            "Biz1Bundle",
             true
         )
 
@@ -31,7 +31,7 @@ fun ReactBizScreen() {
 
 
         // Load app component
-        delegate.loadApp("BizBundle")
+        delegate.loadApp("Biz1Bundle")
     }
 
     AndroidView(
