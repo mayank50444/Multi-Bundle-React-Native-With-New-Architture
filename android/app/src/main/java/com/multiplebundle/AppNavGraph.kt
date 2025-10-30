@@ -13,18 +13,14 @@ fun NativeScreen(onClickBiz1: () -> Unit, onClickBiz2: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(32.dp),
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("This is a native Jetpack Compose screen")
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = onClickBiz1) {
-            Text("Launch Biz1 Bundle")
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = onClickBiz2) {
-            Text("Launch Biz2 Bundle")
-        }
+        Text("Native Content Area", style = MaterialTheme.typography.headlineMedium)
+        Spacer(modifier = Modifier.height(8.dp))
+        Text("This is the top 50% of the screen", style = MaterialTheme.typography.bodyLarge)
+        Spacer(modifier = Modifier.height(4.dp))
+        Text("Below you can see Bundle1 (Blue) and Bundle2 (Green)", style = MaterialTheme.typography.bodyMedium)
     }
 }

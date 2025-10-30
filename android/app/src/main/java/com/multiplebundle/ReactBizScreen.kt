@@ -1,6 +1,7 @@
 package com.multiplebundle
 
 import android.app.Activity
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -45,7 +46,7 @@ fun ReactBizScreen(bundleName: String) {
     reactRootView?.let { rootView ->
         AndroidView(
             factory = { rootView },
-//        modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         )
     }
 }
