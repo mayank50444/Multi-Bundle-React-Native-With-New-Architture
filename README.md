@@ -1,97 +1,115 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+## Building Multi‑Bundle React Native on the New Architecture (RN 0.77) — A Practical Guide
 
-# Getting Started
+If your React Native app is getting large or your teams ship features independently, a single mega‑bundle can slow you down. In this POC, we split the app into a shared “common” bundle and multiple feature (“business”) bundles, then dynamically load those bundles at runtime — all on the New Architecture (Bridgeless) with Hermes. This article walks through the why, the how, and the gotchas, with code you can adopt today.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+### TL;DR
 
-## Step 1: Start Metro
+- We boot the app with a small, shared `common` bundle.
+- Feature bundles (e.g., Biz1, Biz2) are compiled separately and loaded on demand.
+- Metro is customized to keep module IDs stable and non‑overlapping across bundles.
+- On Android (Bridgeless), we start one Hermes runtime and mount React roots from any feature bundle dynamically.
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+### Why go multi‑bundle?
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- Modularity and faster builds: ship only what changed.
+- On‑demand features: mount screens when users actually need them.
+- Safer experiments/tenants: isolate features behind separate artifacts.
+- Team autonomy: separate pipelines per feature group.
 
-```sh
-# Using npm
-npm start
+## Architecture at a glance
 
-# OR using Yarn
-yarn start
+1) Common bundle — built from `index.common.js`. It holds shared primitives, base UI, and cross‑cutting code. The Android host boots with this bundle.
+
+2) Business bundles — one entry file per feature (e.g., `index.biz1.js`, `index.biz2.js`), each registering a unique component key via `AppRegistry.registerComponent(...)`.
+
+3) Stable module IDs — a custom Metro serializer assigns IDs from disjoint ranges and excludes modules already present in the common bundle. No duplication, no collisions.
+
+4) Android host (Bridgeless) — we start `ReactHost` once and load additional bundles via `JSBundleLoader.createAssetLoader(...)`, then mount individual React roots inside Jetpack Compose.
+
+## What’s in this repo
+
+- Common entry: `index.common.js`
+- Features: `index.biz1.js`, `index.biz2.js`
+- Metro configs: `metro.common.config.js`, `metro.business.config.js`
+- Serializer helpers: `bundle.js` (module ID ranges, common map persistence)
+- Build script: `build.sh` (emits `common.android.bundle`, `biz1.android.bundle`, `biz2.android.bundle`, etc.)
+- Android Bridgeless glue:
+  - `MainApplication.kt` (boots with common bundle, enables Bridgeless)
+  - `MultipleReactActivityDelegate.kt` (loads a target bundle and mounts a React root)
+  - `ReactBizScreen.kt` + Compose navigation (choose Biz1/Biz2 and embed the React view)
+
+## The Metro trick that makes this work
+
+We extend Metro’s serializer to keep module IDs deterministic and non‑overlapping:
+
+- Each entry file starts in a different numeric range (e.g., common vs biz ranges).
+- When building the common bundle, we write out a `path:id` map to disk.
+- When building a business bundle, we load that map and skip anything already included in common. Any new modules get IDs from the business range.
+
+This ensures that business bundles can rely on code in common without redefining it, and their own modules won’t collide with other bundles.
+
+## Android: loading feature bundles at runtime (Bridgeless)
+
+On RN 0.77 with Hermes and Bridgeless enabled:
+
+1) App boots with `common.android.bundle`.
+2) A user taps a button in the native screen (Jetpack Compose).
+3) We create a delegate that loads the target feature bundle (e.g., `assets://biz1.android.bundle`) and then call `loadApp('Biz1Bundle')`.
+4) Compose embeds the resulting `ReactRootView` in place.
+
+The runtime isn’t restarted; you just mount a new React root whose code lives in a separate JS asset.
+
+## Build and run
+
+Build all Android bundles:
+
+```bash
+./build.sh
 ```
 
-## Step 2: Build and run your app
+Run the app:
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
+```bash
 npm run android
-
-# OR using Yarn
-yarn android
 ```
 
-### iOS
+You’ll land on a native Compose screen with buttons for Biz1/Biz2. Tap to mount each feature from its own JS bundle.
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+## Add your own feature bundle
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+1) Create `index.biz3.js` and register a unique key:
 
-```sh
-bundle install
+```js
+import {AppRegistry} from 'react-native';
+AppRegistry.registerComponent('Biz3Bundle', () => Biz3App);
 ```
 
-Then, and every time you update your native dependencies, run:
+2) Extend your build to emit `biz3.android.bundle` using `metro.business.config.js`.
 
-```sh
-bundle exec pod install
+3) Map the key to an asset path on Android (e.g., in your screen logic):
+
+```js
+// pseudo-switch
+// 'Biz3Bundle' -> 'assets://biz3.android.bundle'
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+4) Add a button or route to launch Biz3.
 
-```sh
-# Using npm
-npm run ios
+## Caveats you should know about
 
-# OR using Yarn
-yarn ios
-```
+- State isn’t shared across React roots by default. If needed, share via native or a singleton in the common bundle.
+- All bundles must agree on the same RN version and ABI.
+- Keep Hermes enabled across bundles for consistent behavior.
+- Business bundles filter polyfills and `__prelude__` to avoid duplication.
+- iOS parity: this repo focuses on Android Bridgeless. iOS can use a similar pattern (loading additional jsbundle files) and can be wired next.
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+## Where to take this next
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+- CI jobs per feature bundle with semantic versions.
+- Remote update service (CDN, signatures, rollback).
+- Source maps per bundle for crash symbolication.
+- iOS implementation mirroring the Android flow.
 
-## Step 3: Modify your app
+If you want this turned into a production template (scripts, CI, OTA, integrity checks, and iOS parity), I can scaffold the remaining pieces.
 
-Now that you have successfully run the app, let's make changes!
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
