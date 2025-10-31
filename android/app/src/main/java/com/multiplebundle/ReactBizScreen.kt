@@ -34,11 +34,7 @@ fun ReactBizScreen(bundleName: String) {
         )
 
         delegate.onCreate(null)
-
-        // Load app component
-        delegate.loadApp(bundleName)
         
-        // Get the ReactRootView from the delegate
         reactRootView = delegate.getReactRootView()
     }
 
