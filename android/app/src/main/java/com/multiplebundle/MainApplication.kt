@@ -25,6 +25,7 @@ class MainApplication :
                 PackageList(this).packages.apply {
                     // Packages that cannot be autolinked yet can be added manually here, for example:
                     // add(MyReactNativePackage())
+                    add(NavigationPackage())
                 }
 
             override fun getJSMainModuleName(): String = "index.common"

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AppRegistry } from 'react-native';
+import { AppRegistry, NativeModules, Button, View } from 'react-native';
 import {
   SafeAreaView,
   StatusBar,
@@ -34,6 +34,8 @@ function Biz1App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <Text>Business Screen 1</Text>
+      <View style={{ height: 12 }} />
+      <Button title="Go to Native Screen3" onPress={() => NativeModules.NavigationModule.openScreen3()} />
     </SafeAreaView>
   );
 }
