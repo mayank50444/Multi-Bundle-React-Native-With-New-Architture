@@ -1,6 +1,10 @@
 ## Building Multi‑Bundle React Native on the New Architecture (RN 0.77) — A Practical Guide
 
-If your React Native app is getting large or your teams ship features independently, a single mega‑bundle can slow you down. In this POC, we split the app into a shared “common” bundle and multiple feature (“business”) bundles, then dynamically load those bundles at runtime — all on the New Architecture (Bridgeless) with Hermes. This article walks through the why, the how, and the gotchas, with code you can adopt today.
+If your React Native app is getting large or your teams ship features independently, a single mega‑bundle can slow you down. In this POC, we split the app into a shared "common" bundle and multiple feature ("business") bundles, then dynamically load those bundles at runtime — all on the New Architecture (Bridgeless) with Hermes. This article walks through the why, the how, and the gotchas, with code you can adopt today.
+
+### Branches
+
+- **`custom_code_push`**: This branch includes a custom code push implementation. You can use code push to automatically download and update business bundles (biz1, biz2) from Firebase Storage on app start. The implementation supports token-based authentication and only applies code push to business bundles, not the common bundle.
 
 ### TL;DR
 
@@ -37,6 +41,11 @@ If your React Native app is getting large or your teams ship features independen
   - `MainApplication.kt` (boots with common bundle, enables Bridgeless)
   - `MultipleReactActivityDelegate.kt` (loads a target bundle and mounts a React root)
   - `ReactBizScreen.kt` + Compose navigation (choose Biz1/Biz2 and embed the React view)
+- Custom Code Push (on `custom_code_push` branch):
+  - `CustomCodePushManager.kt` (downloads bundles from Firebase Storage on app start)
+  - You can use code push to automatically download and update business bundles from Firebase
+  - Supports token-based authentication
+  - Only applies to business bundles (biz1, biz2), not the common bundle
 
 ## The Metro trick that makes this work
 
