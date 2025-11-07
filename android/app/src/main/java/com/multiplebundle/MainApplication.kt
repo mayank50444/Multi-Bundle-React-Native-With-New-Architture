@@ -45,12 +45,17 @@ class MainApplication :
         super.onCreate()
         SoLoader.init(this, OpenSourceMergedSoMapping)
         FLog.setMinimumLoggingLevel(FLog.VERBOSE)
-        // New Architecture is always enabled
         load(bridgelessEnabled = true)
         
-        // Initialize custom code push manager
-        CustomCodePushManager.initialize(this)
+        val firebaseUrl = ""
+        val accessToken = ""
         
-        Log.i("TestApp", "App onCreate")
+        if (firebaseUrl.isNotEmpty()) {
+            CustomCodePushManager.initialize(this, firebaseUrl, accessToken)
+            CustomCodePushManager.checkForUpdates("Biz1Bundle", "biz1.android.bundle")
+            CustomCodePushManager.checkForUpdates("Biz2Bundle", "biz2.android.bundle")
+        } else {
+            CustomCodePushManager.initialize(this)
+        }
     }
 }

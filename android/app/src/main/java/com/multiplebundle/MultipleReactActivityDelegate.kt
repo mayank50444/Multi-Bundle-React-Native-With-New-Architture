@@ -51,24 +51,16 @@ class MultipleReactActivityDelegate(
 
                 reactHost?.start()?.waitForCompletion()
                 
-                // Extract asset name from bundlePath (e.g., "biz1.android.bundle" from "assets://biz1.android.bundle")
                 val assetName = bundlePath.removePrefix("assets://")
-                
-                // Check for local bundle using custom code push (only for business bundles)
-                // Common bundle always uses assets, business bundles can use code push
                 val localBundlePath = CustomCodePushManager.getBundleFile(mainComponentName, assetName)
                 
-                // Use local bundle if available, otherwise use asset bundle
                 val bundleLoader = if (localBundlePath != null) {
-                    Log.i("TestApp", "Using code push bundle for $mainComponentName: $localBundlePath")
                     JSBundleLoader.createFileLoader(localBundlePath)
                 } else {
-                    Log.i("TestApp", "Using asset bundle for $mainComponentName: $bundlePath")
                     JSBundleLoader.createAssetLoader(this.reactActivity, bundlePath, false)
                 }
                 
-                val result = helper.loadBundle(bundleLoader)
-                Log.i("TestApp", "load bundle $bundlePath ==> $result")
+                helper.loadBundle(bundleLoader)
                 this.loadApp(mainComponentName)
             },
         )
@@ -126,11 +118,9 @@ class MultipleReactActivityDelegate(
     ): Boolean = mReactDelegate!!.onKeyLongPress(keyCode)
 
     override fun onBackPressed(): Boolean {
-        // Check if custom callback is set and returns true (handled)
         if (onBackPressedCallback?.invoke() == true) {
             return true
         }
-        // Otherwise, let React Native handle it
         return mReactDelegate!!.onBackPressed()
     }
 
@@ -144,12 +134,5 @@ class MultipleReactActivityDelegate(
         mReactDelegate!!.onConfigurationChanged(newConfig)
     }
 
-    /**
-     * Get the current [ReactContext] from ReactHost or ReactInstanceManager
-     *
-     *
-     * Do not store a reference to this, if the React instance is reloaded or destroyed, this
-     * context will no longer be valid.
-     */
     override fun getCurrentReactContext(): ReactContext = mReactDelegate!!.currentReactContext!!
 }
