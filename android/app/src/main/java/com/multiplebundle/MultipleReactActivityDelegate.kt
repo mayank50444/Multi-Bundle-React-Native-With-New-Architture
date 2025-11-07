@@ -50,10 +50,24 @@ class MultipleReactActivityDelegate(
                 )
 
                 reactHost?.start()?.waitForCompletion()
-                val result = helper.loadBundle(
-                    JSBundleLoader.createAssetLoader(this.reactActivity, bundlePath, false),
-                )
-
+                
+                // Extract asset name from bundlePath (e.g., "biz1.android.bundle" from "assets://biz1.android.bundle")
+                val assetName = bundlePath.removePrefix("assets://")
+                
+                // Check for local bundle using custom code push (only for business bundles)
+                // Common bundle always uses assets, business bundles can use code push
+                val localBundlePath = CustomCodePushManager.getBundleFile(mainComponentName, assetName)
+                
+                // Use local bundle if available, otherwise use asset bundle
+                val bundleLoader = if (localBundlePath != null) {
+                    Log.i("TestApp", "Using code push bundle for $mainComponentName: $localBundlePath")
+                    JSBundleLoader.createFileLoader(localBundlePath)
+                } else {
+                    Log.i("TestApp", "Using asset bundle for $mainComponentName: $bundlePath")
+                    JSBundleLoader.createAssetLoader(this.reactActivity, bundlePath, false)
+                }
+                
+                val result = helper.loadBundle(bundleLoader)
                 Log.i("TestApp", "load bundle $bundlePath ==> $result")
                 this.loadApp(mainComponentName)
             },

@@ -113,3 +113,10 @@ AppRegistry.registerComponent('Biz3Bundle', () => Biz3App);
 If you want this turned into a production template (scripts, CI, OTA, integrity checks, and iOS parity), I can scaffold the remaining pieces.
 
 
+## Check for Code Push
+
+# Step 1: Push to temporary location
+adb push android/app/src/main/assets/biz1.android.bundle /data/local/tmp/biz1.android.bundle
+
+# Step 2: Copy to app's bundles directory (using run-as)
+adb shell run-as com.multiplebundle cp /data/local/tmp/biz1.android.bundle /data/data/com.multiplebundle/files/bundles/biz1.android.bundle

@@ -47,6 +47,10 @@ class MainApplication :
         FLog.setMinimumLoggingLevel(FLog.VERBOSE)
         // New Architecture is always enabled
         load(bridgelessEnabled = true)
+        
+        // Initialize custom code push manager
+        CustomCodePushManager.initialize(this)
+        
         Log.i("TestApp", "App onCreate")
     }
 }
